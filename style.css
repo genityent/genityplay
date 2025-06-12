@@ -1,77 +1,92 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 2rem;
-    background-color: #f4f4f4;
-  }
-  
-  h1 {
-    text-align: center;
-    color: #333;
-  }
-  
-  h2 {
-    text-align: center;
-    color: #333;
-  }
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
 
-  .controls {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-  
-  .controls input,
-  .controls select {
-    padding: 0.5rem 1rem;
-    font-size: 1rem;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-  }
-  
-  .game-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-  }
-  
-  .game-card {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 1rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-    text-align: center;
-  }
-  
-  .game-card:hover {
-    transform: translateY(-5px);
-  }
-  
-  .game-card h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.5rem;
-    color: #2c3e50;
-  }
-  
-  .game-card p {
-    font-size: 0.95rem;
-    color: #666;
-  }
-  
-  .game-card a {
-    display: inline-block;
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background-color: #3498db;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-  }
-  
-  .game-card a:hover {
-    background-color: #2980b9;
-  }
-  
+body {
+  font-family: 'Orbitron', sans-serif;
+  margin: 0;
+  padding: 2rem;
+  background: linear-gradient(135deg, #0d0d0d, #1a1a1a);
+  color: #ffffff;
+}
+
+h1, h2 {
+  text-align: center;
+  color: #ff004f;
+  text-shadow: 0 0 10px #ff004f, 0 0 20px #00bfff;
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.controls input,
+.controls select {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 12px;
+  border: none;
+  background-color: #1a1a2e;
+  color: #fff;
+  box-shadow: 0 0 10px #ff004f;
+  transition: 0.3s;
+}
+
+.controls input:focus,
+.controls select:focus {
+  outline: none;
+  box-shadow: 0 0 15px #00bfff, 0 0 25px #ff004f;
+}
+
+.game-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+}
+
+.game-card {
+  background: linear-gradient(145deg, #1a1a2e, #0f0f1f);
+  border: 2px solid #00bfff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 0 15px #00bfff, 0 0 10px #ff004f;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: center;
+}
+
+.game-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px #ff004f, 0 0 20px #00bfff;
+}
+
+.game-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #ff004f;
+  text-shadow: 0 0 8px #00bfff;
+}
+
+.game-card p {
+  font-size: 1rem;
+  color: #cccccc;
+}
+
+.game-card a {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  background: linear-gradient(90deg, #ff004f, #00bfff);
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 0 12px #ff004f;
+  transition: 0.3s;
+}
+
+.game-card a:hover {
+  background: linear-gradient(90deg, #00bfff, #ff004f);
+  box-shadow: 0 0 20px #ff004f, 0 0 10px #00bfff;
+}
