@@ -20,13 +20,13 @@ const games = [
       {
         title: "Block Puzzle",
         description: "Selamat datang di Block Puzzle, permainan menyenangkan yang akan mengasah otak dan refleks strategis Anda!",
-        link: "Puzzle/Block Puzzle.html",
-        category: "Puzzle"
+        link: "puzzle/Block Puzzle.html",
+        category: "puzzle"
       },
     {
       title: "klasik",
       description: "Kembali ke masa lalu dengan Snake Classic! Game ular legendaris dari HP jadul kini hadir di web dengan tampilan lucu dan kontrol sentuh yang mudah dimainkan.",
-      link: "klasik/snake.html",
+      link: "Klasik/snake.html",
       category: "klasik"
     },
     
