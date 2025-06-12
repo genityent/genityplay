@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Kecocokan Pasangan</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      background-color: #fbeaff;
+      color: #333;
+      padding: 30px;
+      overflow-x: hidden;
+    }
+
+    input {
+      padding: 10px;
+      margin: 10px;
+      width: 200px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #ff8bd4;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.4em;
+      font-weight: bold;
+    }
+
+    .romantis {
+      color: #ff4da6;
+    }
+
+    .kecewa {
+      color: #888;
+    }
+
+    .icon {
+      position: fixed;
+      font-size: 2em;
+      animation: jatuh 2s linear forwards;
+      pointer-events: none;
+    }
+
+    @keyframes jatuh {
+      from {
+        transform: translateY(-50px) rotate(0deg);
+        opacity: 1;
+      }
+      to {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    /* Loading Heart */
+    .loading {
+      margin-top: 20px;
+    }
+
+    .heart-loader {
+      width: 50px;
+      height: 50px;
+      margin: auto;
+      position: relative;
+      transform: rotate(-45deg);
+      animation: pulse 1s infinite;
+    }
+
+    .heart-loader::before,
+    .heart-loader::after {
+      content: "";
+      width: 50px;
+      height: 50px;
+      background: #ff4da6;
+      border-radius: 50%;
+      position: absolute;
+    }
+
+    .heart-loader::before {
+      top: -25px;
+      left: 0;
+    }
+
+    .heart-loader::after {
+      left: 25px;
+      top: 0;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1) rotate(-45deg);
+      }
+      50% {
+        transform: scale(1.2) rotate(-45deg);
+      }
+    }
+
+    #loadingContainer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Seberapa Cocok Kamu dengan Si Dia?</h2>
+  <input type="text" id="nama1" placeholder="Nama Kamu">
+  <input type="text" id="nama2" placeholder="Nama Dia">
+  <br />
+  <button id="cekBtn" onclick="cekCocok()">Cek Kecocokan</button>
+
+  <div id="loadingContainer" class="loading">
+    <div class="heart-loader"></div>
+    <p>Menilai cinta kalian...</p>
+  </div>
+
+  <div class="result" id="hasil"></div>
+
+  <!-- Suara -->
+  <audio id="sukses" src="https://www.soundjay.com/human/applause-01.mp3"></audio>
+  <audio id="gagal" src="https://www.soundjay.com/human/sigh-01.mp3"></audio>
+  <audio id="musikLatar" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+
+  <script>
+    function cekCocok() {
+      const nama1 = document.getElementById("nama1").value.trim();
+      const nama2 = document.getElementById("nama2").value.trim();
+      const hasil = document.getElementById("hasil");
+      const audioSukses = document.getElementById("sukses");
+      const audioGagal = document.getElementById("gagal");
+      const musikLatar = document.getElementById("musikLatar");
+      const loading = document.getElementById("loadingContainer");
+      const button = document.getElementById("cekBtn");
+
+      if (!nama1 || !nama2) {
+        hasil.innerHTML = "Masukkan kedua nama!";
+        hasil.className = "result";
+        return;
+      }
+
+      // Tampilkan loading dan mulai musik latar
+      hasil.innerHTML = "";
+      loading.style.display = "block";
+      button.disabled = true;
+      musikLatar.currentTime = 0;
+      musikLatar.play();
+
+      // Simulasi loading selama 5 detik
+      setTimeout(() => {
+        loading.style.display = "none";
+        button.disabled = false;
+        musikLatar.pause();
+
+        const skor = Math.floor(Math.random() * 101);
+
+        if (skor > 50) {
+          hasil.className = "result romantis";
+          hasil.innerHTML = `Cocok Banget! ❤️ Kecocokan: ${skor}%`;
+          audioGagal.pause();
+          audioGagal.currentTime = 0;
+          audioSukses.play();
+          efekCinta("💖");
+        } else {
+          hasil.className = "result kecewa";
+          hasil.innerHTML = `Tidak Cocok 😢 Kecocokan: ${skor}%`;
+          audioSukses.pause();
+          audioSukses.currentTime = 0;
+          audioGagal.play();
+          efekCinta("💔");
+        }
+
+      }, 5000); // waktu loading: 5 detik
+    }
+
+    function efekCinta(ikon) {
+      for (let i = 0; i < 20; i++) {
+        const span = document.createElement("span");
+        span.className = "icon";
+        span.textContent = ikon;
+        span.style.left = Math.random() * 100 + "vw";
+        span.style.animationDuration = (1 + Math.random() * 1.5) + "s";
+        document.body.appendChild(span);
+        setTimeout(() => {
+          span.remove();
+        }, 2000);
+      }
+    }
+  </script>
+
+<footer style="margin-top: 20px; font-size: 14px; color: #aaa;">
+  Code by <a href="https://www.genityent.biz.id" target="_blank" style="color: #74ebd5; text-decoration: none;">GENITY ENTERTAINMENT</a>
+  </footer>
+
+</body>
+</html>
+

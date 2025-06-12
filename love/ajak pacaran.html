@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PENGAKUAN SERIUS</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #ffe6f0, #ff99cc);
+            color: #333;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+            animation: backgroundTransition 10s infinite;
+        }
+
+        h1 {
+            color: #d147a3;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5em;
+            margin-bottom: 10px;
+            animation: glowText 3s ease-in-out infinite alternate;
+        }
+
+        h2 {
+            font-size: 2em;
+            color: #b23a75;
+            margin-bottom: 20px;
+            animation: fadeIn 4s ease-in-out;
+        }
+
+        img {
+            margin: 20px;
+            animation: zoomIn 2s ease;
+        }
+
+        #By, #Bn {
+            position: absolute;
+            width: 210px;
+            height: 210px;
+        }
+
+        #By input, #Bn input {
+            padding: 10px 20px;
+            font-size: 1.5em;
+            font-family: 'Dancing Script', cursive;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            color: white;
+        }
+
+        #By input {
+            background-color: #ff6699;
+        }
+
+        #By input:hover {
+            background-color: #ff4d4d;
+            transform: scale(1.1);
+        }
+
+        #Bn input {
+            background-color: #ff9999;
+        }
+
+        #Bn input:hover {
+            background-color: #ff6666;
+        }
+
+        .message {
+            font-size: 2em;
+            font-family: 'Dancing Script', cursive;
+            color: #d147a3;
+            margin-top: 50px;
+            display: none;
+            animation: fadeInMessage 2s ease-in-out forwards;
+        }
+
+        .quote {
+            margin-top: 30px;
+            font-size: 1.5em;
+            color: #d147a3;
+            font-style: italic;
+        }
+
+        .social {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .social a {
+            color: #ff6699;
+            font-size: 1.5em;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .social a:hover {
+            color: #d147a3;
+        }
+
+        .social i {
+            font-size: 2em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        @keyframes fadeInMessage {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes glowText {
+            0% {
+                text-shadow: 0 0 10px #ff6699, 0 0 20px #ff6699, 0 0 30px #ff6699;
+            }
+            100% {
+                text-shadow: 0 0 20px #ff99cc, 0 0 30px #ff99cc, 0 0 40px #ff99cc;
+            }
+        }
+
+        @keyframes backgroundTransition {
+            0% { background: linear-gradient(to right, #ffe6f0, #ff99cc); }
+            50% { background: linear-gradient(to right, #ffccf2, #ffb3e6); }
+            100% { background: linear-gradient(to right, #ffe6f0, #ff99cc); }
+        }
+    </style>
+
+    <script type="text/javascript">
+        let flag = 1;
+
+        function f1() {
+            document.querySelector('.message').style.display = 'block';
+            document.querySelector('.message').innerHTML = "Aku sangat bahagia! Terima kasih sudah menerima perasaanku!";
+            document.getElementById('By').style.display = 'none';
+            document.getElementById('Bn').style.display = 'none';
+        }
+
+        function f() {
+            const button = document.getElementById('Bn');
+            if (flag === 1) {
+                button.style.top = '450px';
+                button.style.left = '320px';
+                flag = 2;
+            } else if (flag === 2) {
+                button.style.top = '400px';
+                button.style.left = '60px';
+                flag = 3;
+            } else if (flag === 3) {
+                button.style.top = '350px';
+                button.style.left = '180px';
+                flag = 1;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <h1>PENGAKUAN SPESIAL BUAT KAMU</h1>
+    <img  alt="Love" src="../img/love.jfif" height="200" />
+    <h2> Sebenarnya aku suka sama kamu, maukah jadi pacarku? </h2>
+
+    <div id="By" style="left:64px; top:370px;">
+        <input type="button" value="Terima" onClick="f1()" />
+    </div>
+    <div id="Bn" style="left:180px; top:370px;">
+        <input type="button" value="Tolak" onMouseOver="f()" />
+    </div>
+
+    <div class="message"></div>
+    <div class="quote"></div>
+
+    <!-- Font Awesome untuk ikon sosial media -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <footer style="margin-top: 20px; font-size: 14px; color: #aaa;">
+  Code by <a href="https://www.genityent.biz.id" target="_blank" style="color: #74ebd5; text-decoration: none;">GENITY ENTERTAINMENT</a>
+    </footer>
+
+</body>
+</html>

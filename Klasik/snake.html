@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Snake 3310</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      margin: 0;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    #game {
+      display: grid;
+      grid-template-columns: repeat(20, 20px);
+      grid-template-rows: repeat(20, 20px);
+      gap: 1px;
+      background: #444;
+    }
+
+    .cell {
+      width: 20px;
+      height: 20px;
+      background: #222;
+    }
+
+    .snake {
+      background: white;
+    }
+
+    .food {
+      background: #ccc;
+    }
+
+    #controls {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-weight: bold;
+      background: white;
+      color: black;
+      border: none;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+
+    #score {
+      margin-top: 10px;
+    }
+
+    @media (max-width: 600px) {
+      #game {
+        transform: scale(0.9);
+      }
+
+      button {
+        padding: 8px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>SNAKE 3310</h1>
+  <div id="game"></div>
+  <div id="score">Score: 0</div>
+
+  <!-- Kontrol Arah -->
+  <div id="controls">
+    <div class="row"><button onclick="setDir('up')">⬆️</button></div>
+    <div class="row">
+      <button onclick="setDir('left')">⬅️</button>
+      <button onclick="setDir('down')">⬇️</button>
+      <button onclick="setDir('right')">➡️</button>
+    </div>
+  </div>
+
+  <button onclick="startGame()">Main Ulang</button>
+
+  <!-- Suara -->
+  <audio id="eat-sound" src="https://cdn.pixabay.com/download/audio/2022/03/28/audio_c3be1a349f.mp3?filename=beep-6-96244.mp3"></audio>
+  <audio id="crash-sound" src="https://cdn.pixabay.com/download/audio/2023/03/24/audio_87e8be10db.mp3?filename=error-126627.mp3"></audio>
+
+  <script>
+    const game = document.getElementById("game");
+    const scoreDisplay = document.getElementById("score");
+    const eatSound = document.getElementById("eat-sound");
+    const crashSound = document.getElementById("crash-sound");
+
+    const width = 20;
+    const height = 20;
+    const cells = [];
+    let snake = [42, 41, 40];
+    let direction = 1;
+    let food = 0;
+    let score = 0;
+    let interval;
+
+    function createBoard() {
+      game.innerHTML = "";
+      cells.length = 0;
+      for (let i = 0; i < width * height; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        game.appendChild(cell);
+        cells.push(cell);
+      }
+    }
+
+    function drawSnake() {
+      cells.forEach(c => c.classList.remove("snake"));
+      snake.forEach(i => cells[i].classList.add("snake"));
+    }
+
+    function moveSnake() {
+      const head = snake[0];
+      const newHead = head + direction;
+
+      if (
+        newHead < 0 || newHead >= width * height ||
+        (direction === 1 && head % width === width - 1) ||
+        (direction === -1 && head % width === 0) ||
+        snake.includes(newHead)
+      ) {
+        crashSound.play();
+        clearInterval(interval);
+        alert("Game Over! Skor: " + score);
+        return;
+      }
+
+      snake.unshift(newHead);
+      if (newHead === food) {
+        score += 10;
+        scoreDisplay.textContent = "Score: " + score;
+        eatSound.play();
+        spawnFood();
+      } else {
+        snake.pop();
+      }
+      drawSnake();
+    }
+
+    function spawnFood() {
+      do {
+        food = Math.floor(Math.random() * width * height);
+      } while (snake.includes(food));
+      cells.forEach(c => c.classList.remove("food"));
+      cells[food].classList.add("food");
+    }
+
+    function handleKey(e) {
+      if (e.key === "ArrowUp" && direction !== width) direction = -width;
+      if (e.key === "ArrowDown" && direction !== -width) direction = width;
+      if (e.key === "ArrowLeft" && direction !== 1) direction = -1;
+      if (e.key === "ArrowRight" && direction !== -1) direction = 1;
+    }
+
+    function setDir(dir) {
+      if (dir === "up" && direction !== width) direction = -width;
+      if (dir === "down" && direction !== -width) direction = width;
+      if (dir === "left" && direction !== 1) direction = -1;
+      if (dir === "right" && direction !== -1) direction = 1;
+    }
+
+    function startGame() {
+      createBoard();
+      snake = [42, 41, 40];
+      direction = 1;
+      score = 0;
+      scoreDisplay.textContent = "Score: 0";
+      spawnFood();
+      drawSnake();
+      clearInterval(interval);
+      interval = setInterval(moveSnake, 200);
+    }
+
+    window.addEventListener("keydown", handleKey);
+    startGame();
+  </script>
+
+    <footer style="margin-top: 20px; font-size: 14px; color: #aaa;">
+  Code by <a href="https://www.genityent.biz.id" target="_blank" style="color: #74ebd5; text-decoration: none;">GENITY ENTERTAINMENT</a>
+  </footer>
+  
+</body>
+</html>
