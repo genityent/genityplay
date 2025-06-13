@@ -24,7 +24,7 @@ const games = [
         category: "puzzle"
       },
     {
-      title: "klasik",
+      title: "SNAKE",
       description: "Kembali ke masa lalu dengan Snake Classic! Game ular legendaris dari HP jadul kini hadir di web dengan tampilan lucu dan kontrol sentuh yang mudah dimainkan.",
       link: "Klasik/snake.html",
       category: "klasik"
