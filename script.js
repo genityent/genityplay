@@ -1,11 +1,5 @@
 const games = [
-    {
-        title: "Cerita Seru",
-        description: "Kumpula kisah dan cerita seru, romantis dan lucu. cocok kamu yang suka menikmati ceita ringan dan menghibur!",
-        link: "story/index.html",
-        category: "interaktif"
-      },
-    {
+      {
         title: "Ajak Pacaran Anti Tolak",
         description: "Game lucu di mana ajakan pacaran kamu selalu diterima. Dijamin 100% diterima tanpa penolakan, cuma hiburan!",
         link: "love/ajak pacaran.html",
@@ -29,6 +23,12 @@ const games = [
       link: "Klasik/snake.html",
       category: "klasik"
     },
+    {
+        title: "Cerita Seru",
+        description: "Kumpula kisah dan cerita seru, romantis dan lucu. cocok kamu yang suka menikmati ceita ringan dan menghibur!",
+        link: "story/index.html",
+        category: "interaktif"
+      },
     
   ];
   
