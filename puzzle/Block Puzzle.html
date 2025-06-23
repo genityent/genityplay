@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>5x5 Block Puzzle</title>
-
   <style>
     * {
       box-sizing: border-box;
@@ -59,7 +58,7 @@
       background: #333;
       padding: 8px;
       border-radius: 8px;
-      cursor: grab;
+      cursor: pointer;
     }
 
     .piece-cell {
@@ -68,6 +67,10 @@
       max-width: 30px;
       max-height: 30px;
       background: linear-gradient(135deg, #74ebd5, #ACB6E5);
+    }
+
+    .piece.selected {
+      outline: 3px solid #00bcd4;
     }
 
     #reset-btn {
@@ -105,16 +108,210 @@
   <audio id="place-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_849f07084e.mp3?filename=click-124467.mp3"></audio>
   <audio id="clear-sound" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2e1d3eebcd.mp3?filename=success-1-6297.mp3"></audio>
 
-  <!-- Script: Sama seperti sebelumnya -->
   <script>
-    // [SCRIPT KAMU TETAP, tidak ada perubahan di logika utama JavaScript]
-    // [Gunakan script yang sama persis seperti di versi awal]
-    // Jika kamu ingin saya bersihkan dan rapikan juga bagian JavaScript-nya, cukup bilang saja!
+    const boardSize = 5;
+    const board = document.getElementById("board");
+    const piecesContainer = document.getElementById("pieces");
+    const scoreDisplay = document.getElementById("score");
+    const placeSound = document.getElementById("place-sound");
+    const clearSound = document.getElementById("clear-sound");
+    const resetBtn = document.getElementById("reset-btn");
+
+    let score = 0;
+    let selectedShape = null;
+
+    const allPieces = [
+      [[1, 1, 1]],
+      [[1], [1], [1]],
+      [[1, 1], [1, 0]],
+      [[1, 1], [0, 1]],
+      [[1, 1], [1, 1]],
+      [[1]],
+    ];
+
+    function createBoard() {
+      board.innerHTML = "";
+      for (let i = 0; i < boardSize * boardSize; i++) {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+        cell.dataset.index = i;
+
+        cell.addEventListener("click", () => {
+          if (selectedShape) {
+            const x = i % boardSize;
+            const y = Math.floor(i / boardSize);
+            if (placePiece(selectedShape, x, y)) {
+              selectedShape = null;
+              document.querySelectorAll(".piece").forEach(p => p.classList.remove("selected"));
+              currentPieces = getRandomPieces();
+              renderPieces();
+              if (!canPlaceAnyPiece()) {
+                setTimeout(() => alert("Game Over! Skor kamu: " + score), 100);
+              }
+            }
+          }
+        });
+
+        board.appendChild(cell);
+      }
+    }
+
+    function getRandomPieces() {
+      let result = [];
+      for (let i = 0; i < 3; i++) {
+        const idx = Math.floor(Math.random() * allPieces.length);
+        result.push(allPieces[idx]);
+      }
+      return result;
+    }
+
+    function renderPieces() {
+      piecesContainer.innerHTML = "";
+      currentPieces.forEach((shape) => {
+        const piece = document.createElement("div");
+        piece.classList.add("piece");
+        piece.dataset.shape = JSON.stringify(shape);
+        piece.style.gridTemplateColumns = `repeat(${shape[0].length}, auto)`;
+
+        shape.forEach(row => {
+          row.forEach(cell => {
+            const block = document.createElement("div");
+            block.classList.add("piece-cell");
+            if (!cell) block.style.visibility = "hidden";
+            piece.appendChild(block);
+          });
+        });
+
+        piece.addEventListener("click", () => {
+          selectedShape = shape;
+          document.querySelectorAll(".piece").forEach(p => p.classList.remove("selected"));
+          piece.classList.add("selected");
+        });
+
+        piecesContainer.appendChild(piece);
+      });
+    }
+
+    function placePiece(shape, x, y) {
+      const cells = document.querySelectorAll(".cell");
+
+      for (let row = 0; row < shape.length; row++) {
+        for (let col = 0; col < shape[row].length; col++) {
+          if (shape[row][col]) {
+            const boardX = x + col;
+            const boardY = y + row;
+            if (
+              boardX >= boardSize || boardY >= boardSize ||
+              boardX < 0 || boardY < 0 ||
+              cells[boardY * boardSize + boardX].classList.contains("filled")
+            ) {
+              return false;
+            }
+          }
+        }
+      }
+
+      for (let row = 0; row < shape.length; row++) {
+        for (let col = 0; col < shape[row].length; col++) {
+          if (shape[row][col]) {
+            const idx = (y + row) * boardSize + (x + col);
+            cells[idx].classList.add("filled");
+          }
+        }
+      }
+
+      placeSound.play();
+      checkLines();
+      return true;
+    }
+
+    function checkLines() {
+      const cells = document.querySelectorAll(".cell");
+
+      for (let row = 0; row < boardSize; row++) {
+        let full = true;
+        for (let col = 0; col < boardSize; col++) {
+          const idx = row * boardSize + col;
+          if (!cells[idx].classList.contains("filled")) {
+            full = false;
+            break;
+          }
+        }
+        if (full) {
+          for (let col = 0; col < boardSize; col++) {
+            const idx = row * boardSize + col;
+            cells[idx].classList.remove("filled");
+          }
+          score += 10;
+          scoreDisplay.textContent = score;
+          clearSound.play();
+        }
+      }
+
+      for (let col = 0; col < boardSize; col++) {
+        let full = true;
+        for (let row = 0; row < boardSize; row++) {
+          const idx = row * boardSize + col;
+          if (!cells[idx].classList.contains("filled")) {
+            full = false;
+            break;
+          }
+        }
+        if (full) {
+          for (let row = 0; row < boardSize; row++) {
+            const idx = row * boardSize + col;
+            cells[idx].classList.remove("filled");
+          }
+          score += 10;
+          scoreDisplay.textContent = score;
+          clearSound.play();
+        }
+      }
+    }
+
+    function canPlaceAnyPiece() {
+      const cells = document.querySelectorAll(".cell");
+      for (const shape of currentPieces) {
+        for (let y = 0; y < boardSize; y++) {
+          for (let x = 0; x < boardSize; x++) {
+            let canPlace = true;
+            for (let row = 0; row < shape.length; row++) {
+              for (let col = 0; col < shape[row].length; col++) {
+                if (shape[row][col]) {
+                  const boardX = x + col;
+                  const boardY = y + row;
+                  if (
+                    boardX >= boardSize || boardY >= boardSize || boardX < 0 || boardY < 0 ||
+                    cells[boardY * boardSize + boardX].classList.contains("filled")
+                  ) {
+                    canPlace = false;
+                  }
+                }
+              }
+            }
+            if (canPlace) return true;
+          }
+        }
+      }
+      return false;
+    }
+
+    resetBtn.addEventListener("click", () => {
+      document.querySelectorAll(".cell").forEach(cell => cell.classList.remove("filled"));
+      score = 0;
+      scoreDisplay.textContent = score;
+      currentPieces = getRandomPieces();
+      renderPieces();
+    });
+
+    // Mulai permainan
+    createBoard();
+    let currentPieces = getRandomPieces();
+    renderPieces();
   </script>
 
   <footer>
     Code by <a href="https://www.genityent.biz.id" target="_blank">GENITY ENTERTAINMENT</a>
   </footer>
-
 </body>
 </html>
